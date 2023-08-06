@@ -1,0 +1,100 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+
+---
+{/*
+TODO:
+- navbar
+- round out content collections
+- tailwind css
+- make headings linkable 
+
+*/}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="mx-auto bg-white dark:bg-darker">
+		<!-- <div> -->
+		<Header title={SITE_TITLE} />
+		<article class="prose mx-auto">
+			<h1>Homepage</h1>
+			{/* INTRO */}
+			<h2>About Me</h2>
+			<p>
+				Dr. Beason specializes his research in financial markets, from market microstructure to aggregate asset pricing. His research places a particular emphasis on quantitative economic modeling and bridging theory and empirics. He is Assistant Professor of Finance and Russell & Arlene Oliver Junior Faculty Fellow at Virginia Tech. He teaches an undergraduate course on investments and a doctoral seminar on research and professional development. Prior to completing his Ph.D. in Finance at Arizona State University, he obtained undergraduate degrees in finance and mathematics and a graduate degree in quantitative finance from Bradley University.
+			</p>
+			<p>
+				This template comes with a few integrations already configured in your
+				<code>astro.config.mjs</code> file. You can customize your setup with
+				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
+				React, or Vue to your project.
+			</p>
+			<p>Here are a few ideas on how to get started with the template:</p>
+			<ul>
+				<li>Edit this page in <code>src/pages/index.astro</code></li>
+				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
+				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
+				<li>Check out the included blog posts in <code>src/pages/blog/</code></li>
+				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
+			</ul>
+			
+			{/* RESEARCH */}
+			<h2>Research</h2>
+			<p>
+			<a href="https://scholar.google.com/citations?hl=en&user=vHF28uYAAAAJ">Google Scholar</a>
+			<!-- <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2332692"><img height="32" width="32" src="https://cdn.simpleicons.org/SSRN" /></a> -->
+
+			<a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2332692">SSRN </a>
+			</p>
+			<h3>Working Papers</h3>
+			<ul>
+				{
+					posts.map((post) => (
+						<li>
+							<FormattedDate date={post.data.pubDate} />
+							<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+						</li>
+					))
+				}
+			</ul>
+			<h3>Publications</h3>
+
+			{/* TEACHING */}
+			<h2>Teaching</h2>
+			<ul>
+				<li>FIN3144 Investments: Debt-Equity-Derivatives</li>
+				<li>FIN6004 Doctoral Development for ...</li>
+			</ul>
+
+			{/* CONTACT */}
+			<h2>Contact</h2>
+			<p>
+				<a href="mailto:beasont@vt.edu">beasont@vt.edu</a>
+			</p>
+			<p>
+				Office phone
+			</p>
+			<p>
+				phone
+			</p>
+			<p>
+				phone
+			</p>
+			
+			</article>
+		<Footer />
+	<!-- </div> -->
+	</body>
+</html>
